@@ -2,3 +2,5 @@ venv/
 venv
 /__pycache__/
 *.pdf
+secrets.py
+api_test.py
