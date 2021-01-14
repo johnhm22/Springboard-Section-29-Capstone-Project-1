@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Matchday</title>
+
+  <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- <link rel="shortcut icon" href="/static/favicon.ico"> -->
+</head>
+
+<body class="{% block body_class %}{% endblock %} pb-5">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+        <img src="https://media.api-sports.io/football/leagues/39.png" width="60" height="60" class="d-inline-block align-top" alt="logo">
+                <!-- 'logo': 'https://media.api-sports.io/football/leagues/39.png',
+                'flag': 'https://media.api-sports.io/flags/gb.svg', -->
+          <p class="h1 d-inline-block align-top"> Matchday</p>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+              
+              <div class="nav-item dropdown">
+                <a class="nav-item nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" href="#">My Predictions</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/user/{{ g.user.id }}/predictions">Create</a>
+                <a class="dropdown-item" href="/user/{{ g.user.id }}/predictions/show"">View my predictions</a>
+                <a class="dropdown-item" href="#">View all</a>
+              </div>
+              </div>
+
+
+              <a class="nav-item nav-link" href="/leaguetable">League table</a>
+              
+              <a class="nav-item nav-link" href="#">Recent results</a>
+
+            
+              <a class="nav-item nav-link" id="fixtures" href="/fixtures">Upcoming games</a>
+              <a class="nav-item nav-link" href="/live">Live games</a>
+            </div>
+          </div>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      {% if request.endpoint != None %}
+      <li>
+        <!-- <form class="navbar-form navbar-right" action="/users">
+          <input name="q" class="form-control" placeholder="Search" id="search">
+          <button class="btn btn-default">
+            <span class="fa fa-search"></span>
+          </button>
+        </form> -->
+      </li>
+      {% endif %}
+      {% if not g.user %}
+      <li><a href="/signup">Sign up</a></li>
+      <li><a href="/login">Log in</a></li>
+      {% else %}
+      <li>
+        <a href="/users/{{ g.user.id }}">
+          <!-- <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}"> -->
+        </a>
+        <span>{{g.user.username}}</span>
+      </li>
+      <li><a href="/logout">Log out</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+
+  {% block content %}
+  {% endblock %}
+
+</div>
+</div>
+</body>
+</html>

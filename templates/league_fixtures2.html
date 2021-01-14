@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+<h2 class="display-5">Five day fixture list</h2>
+</div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-12 col-lg-6">
+        {% for game in games %}
+    <div class="media">
+        <div class="media-body border p-2 pb-3 m-2 rounded">
+          <p class="m-0">{{game.event_date}}</p>
+          <p>KO: time</p>
+            <div class="d-flex justify-content-around">
+            <span><img src={{game.homeTeam_logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">
+            {{game.homeTeam}}</span>
+            <span>vs.</span>
+            <span><img src={{game.awayTeam_logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">
+            {{game.awayTeam}}</span>
+            </div>
+        </div>
+    </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}

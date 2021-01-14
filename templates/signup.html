@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block body_class %}onboarding{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center mt-5">
+  <div class="row">
+      <div class="col-md-6 offset-md-3 col-xl-6 offset-xl-3">
+          <div class="card shadow">
+              <img src="https://images.unsplash.com/photo-1556056504-5c7696c4c28d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8Zm9vdGJhbGx8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
+                  alt="" class="card-img-top" />
+              <div class="card-body">
+                  <h5 class="card-title text-center">Join Matchday</h5>      
+                  <form class="card-body" method="POST" id="user_form">
+                    {{ form.hidden_tag() }}
+
+                    {% for field in form if field.widget.input_type != 'hidden' %}
+                      
+                    {% for error in field.errors %}
+                          <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                    <p>
+                      {{field.label (class_="form-label")}}
+                      {{field (class_ = "autofocus form-control")}}
+
+                      {% for err in field.errors %}
+                      {{err}}
+                      {% endfor %}
+                    </p>
+                    {% endfor %}
+                    <button class="btn btn-success btn-block btn-lg">Log in</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
