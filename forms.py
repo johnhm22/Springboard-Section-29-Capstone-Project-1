@@ -16,6 +16,7 @@ class UserAddForm(FlaskForm):
     first_name = StringField('First name', validators=[DataRequired()])
     last_name = StringField('Last name', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])
+    fave_team = StringField('Fave team', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
     
 

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+  <h4 class="display-5">Today's games: {{d_today}}</h4>
+</div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-12 col-lg-6">
+          <div class="media">
+              <div class="media-body border p-1 pb-1 m-1 rounded text-center" style="background-color: #e4f0edaa">
+              <p>Sorry, no games in the Premiership today</p>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

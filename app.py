@@ -5,9 +5,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from secrets import API_KEY
 import requests
-from datetime import date
-# from populate import populate_standings_table
-
+from datetime import datetime, date
+from ratelimit import limits, sleep_and_retry
 from forms import UserAddForm, UserEditForm, LoginForm, PredictionsForm
 from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom, Prediction_manager, Team, Season_league, Team_info, Results_all, Results_home, Results_away, League_standing, Fixture
 
@@ -15,8 +14,8 @@ from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom,
 today = date.today()
 d1 = today.strftime("%Y-%m-%d")
 
-
-
+FIFTEEN_MINUTES = 900
+FIVE_MINUTES = 300
 
 CURR_USER_KEY = "curr_user"
 
@@ -51,15 +50,17 @@ def do_login(user):
     """Log in user."""
     session[CURR_USER_KEY] = user.id
 
+def do_logout():
+    """Logout user."""
+
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+
 
 @app.route("/")
 def homepage():
-    """Show homepage."""
-
-    # user = User.query.get_or_404(user_id)
-    return render_template("home.html")
-
-
+    """Show homepage."""    
+    return render_template("index.html")
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -70,30 +71,43 @@ def signup():
     If the there already is a user with that username: flash message
     and re-present form.
     """
-
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    
     form = UserAddForm()
+    # the two lines below are not working; should give a drop down list of team_ids in the form
+    #(next step is show team_name)
+    team = db.session.query(League_standing.team_id, Team.team_name).join(Team).all()
+    form.fave_team.choices = team
 
     if form.validate_on_submit():
         user = User.signup(
-                username=form.username.data,
+                username = form.username.data,
                 first_name = form.first_name.data,
                 last_name = form.last_name.data,
-                password=form.password.data,
-                email=form.email.data,
+                password = form.password.data,
+                fave_team = form.fave_team.data,
+                email = form.email.data,
             )
-        # db.session(user)
         db.session.commit()
 
-        # except IntegrityError:
-        #     flash("Username already taken", 'danger')
-        #     return render_template('signup.html', form=form)
-
         do_login(user)
-
-        return redirect("/")
+   
+        return redirect("/user/profile")
 
     else:
         return render_template('signup.html', form=form)
+
+
+@app.route('/user/profile')
+def profile_page():
+    """Present details of user's profile"""
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", "danger")
+        return redirect("/")
+    
+    return render_template('user_profile.html')
+
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -112,10 +126,9 @@ def login():
 
         if user:
             do_login(user)
-            flash(f"Hello, {user.username}!", "success")
-            return redirect("/")
+            return redirect('/home')
 
-        flash("Invalid credentials", 'danger')
+        flash("Sorry, you're details don't match", 'danger')
 
     return render_template('login.html', form=form)
 
@@ -123,19 +136,73 @@ def login():
 @app.route('/logout')
 def logout():
     """Logout user."""
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
-        # return render_template('users/login.html')
-        return redirect('/')
+    do_logout()
 
+    flash(f"Thanks for visiting Matchday. You are now logged out", "success")
+    return redirect('/')
+
+
+@app.route('/home')
+def home_page():
+    """user home page displaying league standing for fave team and the next 5 games for team"""
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", 'danger')
+        return redirect("/")
+   
+    team = Team.query.filter_by(team_name = g.user.fave_team).all()
+    results = Results_all.query.filter_by(team_id = team[0].team_id).all()
+    results_data = results[0]
+    league = League_standing.query.filter_by(team_id = team[0].team_id).all()
+    league_data = league[0]
+
+    record = League_standing.query.filter_by(team_id = team[0].team_id).all()
+
+
+    users_team = Team.query.filter_by(team_name = g.user.fave_team).all()
+
+
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/team/{users_team[0].team_id}/next/5"
+    headers = {
+    'x-rapidapi-key': API_KEY,
+    'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
+    }
+    response = requests.request("GET", url, headers=headers)
+    data = response.json()
+    future_games = data['api']['fixtures']
+
+    return render_template('home.html', results_data=results_data, league_data=league_data, future_games = future_games, record=record)
+
+
+
+@app.route('/user/recent_results')
+def show_recent_results():
+"""Show last five results in league"""
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", "danger")
+        return redirect("/")
+
+
+    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/last/5"
+
+    headers = {
+    'x-rapidapi-key': API_KEY,
+    'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
+    }
+    response = requests.request("GET", url, headers=headers)
+    data = response.json()
+    results = data['api']['fixtures']
+
+    return render_template('recent_results.html', results = results)
 
 
 @app.route('/user/<int:user_id>/predictions', methods=['GET', 'POST'])
 def predictions(user_id):
-    """Record season predictions from user
-    """
+    """Record season predictions from user"""
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", "danger")
+        return redirect("/")
+
     form = PredictionsForm()
-    
     user = User.query.get_or_404(user_id)
 
     if form.validate_on_submit():
@@ -165,56 +232,45 @@ def predictions(user_id):
 
 @app.route('/user/<int:user_id>/predictions/show')
 def predictions_show(user_id):
-    """Show season predictions from user
-    """
-    prediction_top = Prediction_top.query.get_or_404(user_id)
-    prediction_bottom = Prediction_bottom.query.get_or_404(user_id)
-    prediction_manager = Prediction_manager.query.get_or_404(user_id)
+    """Show user's predictions for the season"""
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", "danger")
+        return redirect("/")
+    predictions_top = Prediction_top.query.filter_by(user_id = user_id)
+    predictions_bottom = Prediction_bottom.query.filter_by(user_id = user_id)
+    predictions_manager = Prediction_manager.query.filter_by(user_id = user_id)
 
-    return render_template('predictions_show.html', prediction_top = prediction_top, prediction_bottom = prediction_bottom, prediction_manager = prediction_manager)
-
-
+    return render_template('predictions_show.html', predictions_top = predictions_top, predictions_bottom = predictions_bottom, predictions_manager = predictions_manager)
 
 
 @app.route('/leaguetable')
 def show_league_table():
-    populate_standings_table()
+    """Show current league table"""
     league = League_standing.query.all()
     return render_template('league_table.html', league = league)
 
 
 
-# def show_league_table():
-#     fixture = Fixture.query.all()
-#     return render_template('league_fixtures.html', fixture = fixture)
-
-# @app.route('/fixtures')
-# def show_upcoming_fixtures():
-#     # get next 5 fixtures from league id = 2790 (prem league 2020)
-#     url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/next/5"
-#     headers = {
-#         'x-rapidapi-key': API_KEY,
-#         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
-#         }
-#     response = requests.request("GET", url, headers=headers)
-        
-#     data = response.json()
-#     fixtures = data['api']['fixtures']
-#     return render_template("league_fixtures.html", fixtures = fixtures)
-
-
-#Get data from backend database
-@app.route('/fixtures')
-def show_upcoming_fixtures():
+@app.route('/user/<int:user_id>/fixtures')
+def show_upcoming_fixtures(user_id):
     # get next 5 fixtures from league id = 2790 (prem league 2020)
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", "danger")
+        return redirect("/")
+
     games = Fixture.query.all()
+
     return render_template("league_fixtures2.html", games = games)
 
 
-@app.route('/live')
+@app.route('/user/live')
 def show_live_games():
-    # get next 5 fixtures from league id = 2790 (prem league 2020)
-    d4 = today.strftime("%d-%b-%Y")
+    """Show scheduled/live games for the day """
+    if not g.user:
+        flash("Sorry, you are not authorised to view this page", "danger")
+        return redirect("/")
+
+    d_today = today.strftime("%d-%b-%Y")
     url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/{d1}"
     headers = {
         'x-rapidapi-key': API_KEY,
@@ -222,5 +278,14 @@ def show_live_games():
         }
     response = requests.request("GET", url, headers=headers)
     data = response.json()
+    if data['api']['results'] == 0:
+        return render_template('live_no_games.html')
+
+    date_string = data['api']['fixtures'][0]['event_date']
+    date_object = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S%z")
+    date = date_object.ctime()
+
     fixtures = data['api']['fixtures']
-    return render_template("live.html", fixtures = fixtures, d4 = d4)
+    return render_template("live.html", fixtures = fixtures, d_today = d_today)
+
+

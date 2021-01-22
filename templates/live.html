@@ -2,74 +2,35 @@
 
 {% block content %}
 <div class="row justify-content-md-center">
-<h4 class="display-5">Today's games: {{d4}}</h4>
+  <h4 class="display-5">Today's games: {{d_today}}</h4>
 </div>
-  <div class="row justify-content-md-center">
-    <div class="col-md-12 col-lg-12">
-        <table class="table table-sm table-striped">
-            <thead class="thead-dark">
-                <th>Date</th>
-                <th>KO time</th>
-                <th></th>
-                <th>Home Team</th>
-                <th>Goals</th>
-                <th></th>
-                <th>Away team</th>
-                <th>Goals</th>
-                <th>Venue</th>
-                <th>Status</th>
-                <th>Time elapsed</th>
-                <th>Referee</th>
-            </thead>
-            <tbody>
-                {% for game in fixtures %}
-                <tr>
-                    <td>{{game['event_date']}}</td>
-                    <td>KO time</td>
-                    <td><img src={{ game['homeTeam']['logo'] }} width="30" height="30" class="d-inline-block align-top" alt="logo"></td>
-                    <td>{{game['homeTeam']['team_name']}}</td>
-                    <td>{{game['goalsHomeTeam']}}</td>
-                    <td><img src={{ game['awayTeam']['logo'] }} width="30" height="30" class="d-inline-block align-top" alt="logo"></td>
-                    <td>{{game['awayTeam']['team_name']}}</td>
-                    <td>{{game['goalsAwayTeam']}}</td>
-                    <td>{{game['venue']}}</td>
-                    <td>{{game['status']}}</td>
-                    <td>{{game['elapsed']}}</td>
-                    <td>{{game['referee']}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-
-    
-    </div>
-  </div>
-
     <div class="row justify-content-md-center">
-            <div class="col-md-12 col-lg-6">
+        <div class="col-md-12 col-lg-6">
                 {% for game in fixtures %}
-            <div class="media">
-                <div class="media-body border p-2 rounded">
-                  <h5 class="mt-0">KO: time</h5>
-                  <div class="text-md-center">
-                  <img src={{ game['homeTeam']['logo'] }} width="30" height="30" class="d-inline-block align-top" alt="logo">
+          <div class="media">
+              <div class="media-body border p-1 pb-1 m-1 rounded" style="background-color: #e4f0edaa">
+                <p class="m-0 mb-1">KO: time</p>
+                <div class="d-flex justify-content-around">
+
+                  <div class="col text-center">
+                  <img src={{game['homeTeam']['logo']}} width="30" height="30" class="d-inline-block align-top" alt="logo">
                   {{game['homeTeam']['team_name']}}
+                  </div>
                   
-                 vs.
-                  <img src={{ game['awayTeam']['logo'] }} width="30" height="30" class="d-inline-block align-top" alt="logo">
+                  <div class="col-2 text-center">
+                  vs.
+                  </div>
+
+                  <div class="col text-center">
+                  <img src={{game['awayTeam']['logo']}} width="30" height="30" class="d-inline-block align-top" alt="logo">
                     {{game['awayTeam']['team_name']}}
-                
-                </div>
-                </div>
+                  </div>
+
+                  </div>
               </div>
+            </div>
                 {% endfor %}
-
         </div>
-
-
-
     </div>
-
 
 {% endblock %}

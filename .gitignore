@@ -4,3 +4,5 @@ venv
 *.pdf
 secrets.py
 api_test.py
+branch
+static/__pycache__/

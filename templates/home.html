@@ -1,10 +1,76 @@
 {% extends 'base.html' %}
+
 {% block content %}
+<div class="row justify-content-md-center">
 
-<p>Hey welcome back {{ g.user.username }}</p>
+</div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-7 col-lg-7">
+        
+        <h3 class="display-5 mb-3 text-center">{{g.user.username}}, how's your fave team {{g.user.fave_team }} doing?</h3>
+        <table class="table" style="background-color: #e4f0edaa">
+            <thead class="text-center" style="background-color: #e4f0edaa">
+                <th>Rank</th>
+                <th>Form</th>
+                <th>Played</th>
+                <th>Won</th>
+                <th>Drawn</th>
+                <th>Lost</th>
+                <th>Goals for</th>
+                <th>Goals against</th>
+                <th>Goal diff</th>
+            </thead>
+            <tbody class="text-center">
+                <tr>
+                    <td>{{league_data.rank}}</td>
+                    <td>{{record[0].form}}</td>
+                    <td>{{results_data.matches_played}}</td>
+                    <td>{{results_data.win}}</td>
+                    <td>{{results_data.draw}}</td>
+                    <td>{{results_data.lose}}</td>
+                    <td>{{results_data.goals_for}}</td>
+                    <td>{{results_data.goals_against}}</td>
+                    <td>{{record[0].goalsDiff}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+  </div>
 
-<h2>Welcome to Matchday</h2>
-<h2>All the football info and news from the English Premier League</h2>
+
+  <div class="row justify-content-md-center">
+    <h3 class="display-5">Five day fixture list for {{g.user.fave_team}}</h3>
+    </div>
+      <div class="row justify-content-md-center">
+        <div class="col-md-12 col-lg-6">
+            {% for game in future_games %}
+        <div class="media">
+            <div class="media-body border p-1 pb-2 m-1 rounded" style="background-color: #e4f0edaa">
+              <p class="mb-1">{{game['event_date']}}</p>
+                <div class="d-flex justify-content-around">
+                
+                <div class="col text-center">
+                <img src={{game['homeTeam']['logo']}} width="30" height="30" class="d-inline-block align-top" alt="logo">
+                {{game['homeTeam']['team_name']}}
+                </div>
+    
+                <div class="col-2 text-center">
+                vs.
+                </div>
+                
+                <div class="col text-center">
+                <img src={{game['awayTeam']['logo']}} width="30" height="30" class="d-inline-block align-top" alt="logo">
+                {{game['awayTeam']['team_name']}}
+                </div>
+    
+              </div>
+            </div>
+        </div>
+            {% endfor %}
+    
+        </div>
+    </div>
 
 
 {% endblock %}

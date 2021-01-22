@@ -8,16 +8,26 @@
     <div class="col-md-12 col-lg-6">
         {% for game in games %}
     <div class="media">
-        <div class="media-body border p-2 pb-3 m-2 rounded">
-          <p class="m-0">{{game.event_date}}</p>
-          <p>KO: time</p>
+        <div class="media-body border p-1 pb-2 m-1 rounded" style="background-color: #e4f0edaa">
+          <p class="mb-1">{{game.event_date}}</p>
             <div class="d-flex justify-content-around">
-            <span><img src={{game.homeTeam_logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">
-            {{game.homeTeam}}</span>
-            <span>vs.</span>
-            <span><img src={{game.awayTeam_logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">
-            {{game.awayTeam}}</span>
+            
+            <div class="col text-center">
+            <img src={{game.homeTeam_logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">
+            {{game.homeTeam}}
             </div>
+
+            <div class="col-2 text-center">
+            vs.
+            </div>
+            
+            <div class="col text-center">
+            <img src={{game.awayTeam_logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">
+            {{game.awayTeam}}
+            </div>
+
+
+          </div>
         </div>
     </div>
         {% endfor %}

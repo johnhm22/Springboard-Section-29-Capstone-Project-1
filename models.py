@@ -25,7 +25,7 @@ class User(db.Model):
     username = db.Column(
         db.Text,
         nullable=False,
-        unique=True,
+        unique=True
     )
 
     first_name = db.Column(
@@ -41,29 +41,28 @@ class User(db.Model):
     email = db.Column(
         db.Text,
         nullable=False,
-        unique=True,
+        unique=True
     )
 
-    date_of_birth = db.Column(
-        db.DateTime,
-        nullable = True
+    fave_team = db.Column(
+        db.Text,
     )
 
     password = db.Column(
         db.Text,
-        nullable=False,
+        nullable=False
     )
 
     created_on = db.Column(
         db.DateTime,
         nullable=False,
-        default=datetime.utcnow(),
+        default=datetime.utcnow()
     )
 
 
 
     @classmethod
-    def signup(cls, username, first_name, last_name, email, password):
+    def signup(cls, username, first_name, last_name, email, password, fave_team):
         """Sign up user.
         Hashes password and adds user to system.
         """
@@ -76,6 +75,7 @@ class User(db.Model):
             last_name = last_name,
             email=email,
             password=hashed_pwd,
+            fave_team=fave_team
         )
 
         db.session.add(user)
@@ -549,6 +549,11 @@ class Fixture(db.Model):
         db.Text
     )
 
+    event_time = db.Column(
+        db.Integer,
+        nullable = True
+    )
+
     venue = db.Column(
         db.Text
     )
@@ -581,6 +586,61 @@ class Fixture(db.Model):
         db.Text
     )
 
+
+
+class Result(db.Model):
+    """details of forthcoming fixtures"""
+
+    __tablename__ = 'results'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    fixture_id = db.Column(
+        db.Integer
+    )
+
+    league = db.Column(
+        db.Text
+    )
+
+    event_date = db.Column(
+        db.Text
+    )
+
+    home_team = db.Column(
+        db.Text
+    )
+
+    home_team_id = db.Column(
+        db.Integer
+    )
+
+    home_team_logo = db.Column(
+        db.Text
+    )
+
+    away_team = db.Column(
+        db.Text
+    )
+
+    away_team_id = db.Column(
+        db.Integer
+    )
+
+    away_team_logo = db.Column(
+        db.Text
+    )
+
+    goals_home_team = db.Column(
+        db.Integer
+    )
+
+    goals_away_team = db.Column(
+        db.Integer
+    )
 
 
 
