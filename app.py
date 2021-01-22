@@ -176,7 +176,7 @@ def home_page():
 
 @app.route('/user/recent_results')
 def show_recent_results():
-"""Show last five results in league"""
+    """Show last five results in league"""
     if not g.user:
         flash("Sorry, you are not authorised to view this page", "danger")
         return redirect("/")
