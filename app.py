@@ -173,7 +173,7 @@ def home_page():
     return render_template('home.html', results_data=results_data, league_data=league_data, future_games = future_games, record=record)
 
 
-
+@limits(calls = 1, period = FIVE_MINUTES)
 @app.route('/user/recent_results')
 def show_recent_results():
     """Show last five results in league"""
@@ -251,18 +251,28 @@ def show_league_table():
 
 
 
-@app.route('/user/<int:user_id>/fixtures')
-def show_upcoming_fixtures(user_id):
-    # get next 5 fixtures from league id = 2790 (prem league 2020)
+
+
+@limits(calls = 1, period = FIVE_MINUTES)
+@app.route('/fixtures')
+def show_upcoming_fixtures():
     if not g.user:
         flash("Sorry, you are not authorised to view this page", "danger")
         return redirect("/")
 
-    games = Fixture.query.all()
+    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/next/5"
+    headers = {
+    'x-rapidapi-key': API_KEY,
+    'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
+    }
+    response = requests.request("GET", url, headers=headers)
+    data = response.json()
+    fixtures = data['api']['fixtures']
+    return render_template('league_fixtures.html', fixtures = fixtures)
 
-    return render_template("league_fixtures2.html", games = games)
 
 
+@limits(calls = 3, period = FIVE_MINUTES)
 @app.route('/user/live')
 def show_live_games():
     """Show scheduled/live games for the day """
