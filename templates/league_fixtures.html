@@ -18,7 +18,7 @@
             <tbody>
                 {% for game in fixtures %}
                 <tr>
-                    <td>{{game['event_date']}}</td>
+                    <td class="date">{{game['event_date']}}</td>
                     <td>KO time</td>
                     <td><img src={{ game['homeTeam']['logo'] }} width="30" height="30" class="d-inline-block align-top" alt="logo">  {{game['homeTeam']['team_name']}}</td>
                     <td><img src={{ game['awayTeam']['logo'] }} width="30" height="30" class="d-inline-block align-top" alt="logo">  {{game['awayTeam']['team_name']}}</td>

@@ -1,16 +1,17 @@
 
+$(".date").each(function(){
+    let currDate = $(this).text();
+    let newDate = moment(currDate).format("h:mm a, ddd Do MMMM");
+    console.log(newDate);
+    return $(this).text(newDate);
+})
+
+$(".koTime").each(function(){
+    let currDate = $(this).text();
+    let newDate = moment(currDate).format("h:mm a");
+    console.log(newDate);
+    return $(this).text(newDate);
+})
 
 
-$("#fixtures").on("click", async function getFixtures(){
 
-
-url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/next/5"
-
-headers = {
-    'x-rapidapi-key': API_KEY,
-    'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
-    }
-response = requests.request("GET", url, headers=headers)
-
-    $(`<p>Your birth year ${resp.data.number} fact is ${resp.data.text}.</p>`).appendTo("#lucky-results");
-});

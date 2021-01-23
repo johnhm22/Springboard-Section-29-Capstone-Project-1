@@ -281,9 +281,6 @@ def show_live_games():
     if data['api']['results'] == 0:
         return render_template('live_no_games.html')
 
-    date_string = data['api']['fixtures'][0]['event_date']
-    date_object = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S%z")
-    date = date_object.ctime()
 
     fixtures = data['api']['fixtures']
     return render_template("live.html", fixtures = fixtures, d_today = d_today)
