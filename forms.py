@@ -52,5 +52,5 @@ class PredictionsForm(FlaskForm):
     second_from_bottom = StringField('Second from bottom', validators=[DataRequired()])
     third_from_bottom = StringField('Third from bottom', validators=[DataRequired()])
 
-    manager_one = StringField('First prediction', validators=[DataRequired()])
-    manager_two = StringField('Second prediction', validators=[DataRequired()])
+    manager_one = StringField('First manager to go', validators=[DataRequired()])
+    manager_two = StringField('Second manager to go', validators=[DataRequired()])

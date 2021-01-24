@@ -1,39 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-md-center">
-
-</div>
   <div class="row justify-content-md-center">
-    <div class="col-md-7 col-lg-7">
+    <div class="col-md-12 col-lg-8">
         
         <h3 class="display-5 mb-3 text-center">{{g.user.username}}, how's your fave team {{g.user.fave_team }} doing?</h3>
-        <table class="table" style="background-color: #e4f0edaa">
-            <thead class="text-center" style="background-color: #e4f0edaa">
-                <th>Rank</th>
-                <th>Form</th>
-                <th>Played</th>
-                <th>Won</th>
-                <th>Drawn</th>
-                <th>Lost</th>
-                <th>Goals for</th>
-                <th>Goals against</th>
-                <th>Goal diff</th>
-            </thead>
-            <tbody class="text-center">
-                <tr>
-                    <td>{{league_data.rank}}</td>
-                    <td>{{record[0].form}}</td>
-                    <td>{{results_data.matches_played}}</td>
-                    <td>{{results_data.win}}</td>
-                    <td>{{results_data.draw}}</td>
-                    <td>{{results_data.lose}}</td>
-                    <td>{{results_data.goals_for}}</td>
-                    <td>{{results_data.goals_against}}</td>
-                    <td>{{record[0].goalsDiff}}</td>
-                </tr>
-            </tbody>
-        </table>
+        
+        <div class="table-responsive-md">
+          <table class="table" style="background-color: #e4f0edaa">
+              <thead class="text-center" style="background-color: #e4f0edaa">
+                  <th>Rank</th>
+                  <th>Form</th>
+                  <th>Played</th>
+                  <th>Won</th>
+                  <th>Drawn</th>
+                  <th>Lost</th>
+                  <th>Goals for</th>
+                  <th>Goals against</th>
+                  <th>Goal diff</th>
+              </thead>
+              <tbody class="text-center">
+                  <tr>
+                      <td>{{league_data.rank}}</td>
+                      <td>{{record[0].form}}</td>
+                      <td>{{results_data.matches_played}}</td>
+                      <td>{{results_data.win}}</td>
+                      <td>{{results_data.draw}}</td>
+                      <td>{{results_data.lose}}</td>
+                      <td>{{results_data.goals_for}}</td>
+                      <td>{{results_data.goals_against}}</td>
+                      <td>{{record[0].goalsDiff}}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      
     </div>
     
   </div>

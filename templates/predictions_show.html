@@ -4,42 +4,44 @@
 
 {% block content %}
 
-  <div class="row justify-content-md-center mt-2">
-    <div class="col-md-7 col-lg-5">
-      <h2 class="join-message">These are your predictions</h2>
+  <div class="row justify-content-center mt-2">
+    <div class="col-sm-10 col-md-8 col-lg-6">
+      <div class="text-center">
+      <h3>These are your predictions</h3>
+      </div>
       
       <div class="media">
         <div class="media-body">
-            <i class="fas fa-trophy mr-2"></i>
-          <h5 class="mt-0 d-inline">Top teams</h5>
+            <i class="fas fa-trophy mr-2 mb-2"></i>
+          <h5 class="mt-0 d-inline mb-2">Top teams</h5>
           <ul class="list-group">
-            <li class="list-group-item">{{predictions_top[0].first}}</li>
-            <li class="list-group-item">{{predictions_top[0].second}}</li>
-            <li class="list-group-item">{{predictions_top[0].third}}</li>
-            <li class="list-group-item">{{predictions_top[0].fourth}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_top[0].first}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_top[0].second}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_top[0].third}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_top[0].fourth}}</li>
           </ul>
         </div>
       </div>
 
       <div class="media mt-4">
         <div class="media-body">
-            <i class="far fa-thumbs-down mr-2"></i>
-          <h5 class="mt-0 d-inline">Bottom three teams</h5>
+            <i class="far fa-thumbs-down mr-2 mb-2"></i>
+          <h5 class="mt-0 d-inline mb-2">Bottom three teams</h5>
           <ul class="list-group">
-            <li class="list-group-item">{{predictions_bottom[0].last_less_two}}</li>
-            <li class="list-group-item">{{predictions_bottom[0].last_less_one}}</li>
-            <li class="list-group-item">{{predictions_bottom[0].last}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_bottom[0].last_less_two}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_bottom[0].last_less_one}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_bottom[0].last}}</li>
           </ul>
         </div>
       </div>
 
       <div class="media mt-4">
         <div class="media-body">
-            <i class="far fa-thumbs-down mr-2"></i>
-          <h5 class="mt-0 d-inline">Managerial departures</h5>
+            <i class="far fa-thumbs-down mr-2 mb-2"></i>
+          <h5 class="mt-0 d-inline mb-2">Managerial departures</h5>
           <ul class="list-group">
-            <li class="list-group-item">{{predictions_manager[0].first}}</li>
-            <li class="list-group-item">{{predictions_manager[0].second}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_manager[0].first}}</li>
+            <li class="list-group-item" style="background-color: #e4f0edaa">{{predictions_manager[0].second}}</li>
           </ul>
         </div>
       </div>
