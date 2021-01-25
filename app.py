@@ -77,8 +77,17 @@ def signup():
     form = UserAddForm()
     # the two lines below are not working; should give a drop down list of team_ids in the form
     #(next step is show team_name)
-    team = db.session.query(League_standing.team_id, Team.team_name).join(Team).all()
-    form.fave_team.choices = team
+
+    fave_team_list = []
+    teams = db.session.query(League_standing.team_id, Team.team_name).join(Team).all()
+    for (id, name) in teams:
+        fave_team_list.append(name)
+    
+    team_choices = [(team, team) for team in fave_team_list]
+
+    form.fave_team.choices = team_choices
+
+
 
     if form.validate_on_submit():
         user = User.signup(
@@ -87,7 +96,7 @@ def signup():
                 last_name = form.last_name.data,
                 password = form.password.data,
                 fave_team = form.fave_team.data,
-                email = form.email.data,
+                email = form.email.data
             )
         db.session.commit()
 

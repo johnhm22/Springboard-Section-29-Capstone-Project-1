@@ -45,7 +45,7 @@ class User(db.Model):
     )
 
     fave_team = db.Column(
-        db.Text,
+        db.Text
     )
 
     password = db.Column(
