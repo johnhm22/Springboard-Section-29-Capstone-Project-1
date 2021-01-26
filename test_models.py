@@ -1,5 +1,7 @@
 """User model tests."""
 
+"""Running test file: comment out populate_standings_table() in app.py prior to running tests"""
+
 # run these tests with following command:
 #
 #    python -m unittest test_model.py
@@ -17,6 +19,7 @@ os.environ['DATABASE_URL'] = "postgresql:///matchday_test"
 
 
 from app import app
+
 
 
 class UserModelTestCase(TestCase):
@@ -50,7 +53,6 @@ class UserModelTestCase(TestCase):
 
     def tearDown(self):
         """Remove test data"""
-        User.query.delete()
         db.session.rollback()
 
     

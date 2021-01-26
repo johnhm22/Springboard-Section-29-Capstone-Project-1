@@ -1,3 +1,10 @@
+"""
+Not to be run
+Purpose is to populate test database as part of test_app.py
+
+"""
+
+
 import os
 
 

@@ -36,6 +36,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 connect_db(app)
 
 #update league table details in database
+#comment this function call out before running tests
 populate_standings_table()
 
 @app.before_request

@@ -1,3 +1,14 @@
+"""
+Test of routes in app.py
+
+Running test file: comment out populate_standings_table() in app.py prior to running tests
+
+run these tests with following command:
+
+    python -m unittest test_app.py
+
+"""
+
 import os
 from unittest import TestCase
 from models import db, connect_db, User, Prediction_top, Prediction_bottom, Prediction_manager
@@ -110,7 +121,7 @@ class ViewTestCase(TestCase):
                 sess[CURR_USER_KEY] = self.id1
 
 
-            res = client.get(f"/user/{self.id1}/fixtures", follow_redirects=True)
+            res = client.get("/fixtures", follow_redirects=True)
             html = res.get_data(as_text = True)
 
             self.assertEqual(res.status_code, 200)
@@ -156,7 +167,7 @@ class ViewTestCase(TestCase):
         
 
     
-    def test_predictions_top(self):
+    def test_predictions_show(self):
         with app.test_client() as client:
             with client.session_transaction() as sess:
                 sess[CURR_USER_KEY] = self.id1
@@ -165,20 +176,22 @@ class ViewTestCase(TestCase):
         html = res.get_data(as_text = True)
 
         self.assertEqual(res.status_code, 200)
-        self.assertIn('<h5 class="mt-0 d-inline">Top teams</h5>', html)
-        self.assertIn('<li class="list-group-item">Team1</li>', html)
-        self.assertIn('<li class="list-group-item">Team2</li>', html)
-        self.assertIn('<li class="list-group-item">Team3</li>', html)
-        self.assertIn('<li class="list-group-item">Team4</li>', html)
+        self.assertIn('<h5 class="mt-0 d-inline mb-2">Top teams</h5>', html)
+        self.assertIn('<li class="list-group-item" style="background-color: #e4f0edaa">Team1</li>', html)
+        self.assertIn('<li class="list-group-item" style="background-color: #e4f0edaa">Team2</li>', html)
+        self.assertIn('<li class="list-group-item" style="background-color: #e4f0edaa">Team3</li>', html)
+        self.assertIn('<li class="list-group-item" style="background-color: #e4f0edaa">Team4</li>', html)
+     
 
-        self.assertIn('<h5 class="mt-0 d-inline">Bottom three teams</h5>', html)
-        self.assertIn('<li class="list-group-item">Team18</li>', html)
-        self.assertIn('<li class="list-group-item">Team19</li>', html)
-        self.assertIn('<li class="list-group-item">Team20</li>', html)
+        self.assertIn('<h5 class="mt-0 d-inline mb-2">Bottom three teams</h5>', html)
+        self.assertIn(' <li class="list-group-item" style="background-color: #e4f0edaa">Team18</li>', html)
+        self.assertIn(' <li class="list-group-item" style="background-color: #e4f0edaa">Team19</li>', html)
+        self.assertIn(' <li class="list-group-item" style="background-color: #e4f0edaa">Team20</li>', html)
+        
 
-        self.assertIn('<h5 class="mt-0 d-inline">Managerial departures</h5>', html)
-        self.assertIn('<li class="list-group-item">Man1</li>', html)
-        self.assertIn('<li class="list-group-item">Man2</li>', html)
+        self.assertIn('<h5 class="mt-0 d-inline mb-2">Managerial departures</h5>', html)
+        self.assertIn(' <li class="list-group-item" style="background-color: #e4f0edaa">Man1</li>', html)
+        self.assertIn(' <li class="list-group-item" style="background-color: #e4f0edaa">Man2</li>', html)
     
 
 

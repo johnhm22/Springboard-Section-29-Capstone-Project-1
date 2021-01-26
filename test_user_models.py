@@ -1,8 +1,13 @@
-"""User model tests."""
+"""
+Test of user creation, login and authentication
 
-# run these tests like:
-#
-#    python -m unittest test_user_models.py
+Running test file: comment out populate_standings_table() in app.py prior to running tests
+
+run these tests with following command:
+
+    python -m unittest test_app.py
+
+"""
 
 
 import os
@@ -11,20 +16,15 @@ from sqlalchemy import exc
 
 from models import db, User, Prediction_top
 
-# BEFORE we import our app, let's set an environmental variable
-# to use a different database for tests (we need to do this
-# before we import our app, since that will have already
-# connected to the database
+# Before app is imported, set an environmental variable
+# to use test database. This needs to be done
+# before app is imported, otherwise it will use the live database
 
 os.environ['DATABASE_URL'] = "postgresql:///matchday_test"
 
-# Now we can import app
 
 from app import app
 
-# Create our tables (we do this here, so we only create the tables
-# once for all tests --- in each test, we'll delete the data
-# and create fresh new clean test data
 
 
 class UserModelTestCase(TestCase):
@@ -82,7 +82,7 @@ class UserModelTestCase(TestCase):
         # Bcrypt strings should start with $2b$
         self.assertTrue(u.password.startswith("$2b$"))
 
-    # OK
+    
     def test_valid_authentication(self):
         u = User.authenticate(self.u1.username, "password")
         self.assertIsNotNone(u)
@@ -90,12 +90,12 @@ class UserModelTestCase(TestCase):
         self.assertEqual(u.username, "User_john")
 
         
-    # OK
+    
     def test_invalid_username(self):
         self.assertFalse(User.authenticate("badusername", "password"))
 
 
-    # OK
+    
     def test_wrong_password(self):
         self.assertFalse(User.authenticate(self.u1.username, "badpassword"))
 
