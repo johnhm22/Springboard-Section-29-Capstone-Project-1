@@ -1,12 +1,12 @@
 import os
 from unittest import TestCase
-from .models import db, connect_db, User, Prediction_top, Prediction_bottom, Prediction_manager
+from models import db, connect_db, User, Prediction_top, Prediction_bottom, Prediction_manager
 from flask import session
 from datetime import datetime, date
 
 os.environ['DATABASE_URL'] = "postgresql:///matchday_test"
 
-from .app import app, CURR_USER_KEY
+from app import app, CURR_USER_KEY
 
 app.config['TESTING'] = True
 app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
