@@ -9,6 +9,7 @@ from datetime import datetime, date
 from ratelimit import limits, sleep_and_retry
 from forms import UserAddForm, UserEditForm, LoginForm, PredictionsForm
 from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom, Prediction_manager, Team, Season_league, Team_info, Results_all, Results_home, Results_away, League_standing, Fixture
+from populate_scripts import populate_standings_table
 
 
 today = date.today()
@@ -34,6 +35,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
 
+#update league table details in database
+populate_standings_table()
 
 @app.before_request
 def add_user_to_g():
@@ -245,6 +248,11 @@ def predictions_show(user_id):
     if not g.user:
         flash("Sorry, you are not authorised to view this page", "danger")
         return redirect("/")
+
+    if Prediction_top.query.filter_by(user_id = g.user.id).all() == [] or Prediction_bottom.query.filter_by(user_id = g.user.id).all() == [] or Prediction_manager.query.filter_by(user_id = g.user.id).all() == []:
+        flash("Please enter your predictions", "info")
+        return redirect(f"/user/{user_id}/predictions")
+
     predictions_top = Prediction_top.query.filter_by(user_id = user_id)
     predictions_bottom = Prediction_bottom.query.filter_by(user_id = user_id)
     predictions_manager = Prediction_manager.query.filter_by(user_id = user_id)
@@ -299,7 +307,6 @@ def show_live_games():
     data = response.json()
     if data['api']['results'] == 0:
         return render_template('live_no_games.html')
-
 
     fixtures = data['api']['fixtures']
     return render_template("live.html", fixtures = fixtures, d_today = d_today)

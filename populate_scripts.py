@@ -93,6 +93,9 @@ def populate_team_info_table():
 
 def populate_standings_table():
     """populate prem league table. Prem league id for 2020 = 2790"""
+    print("***************")
+    print("populate league table script was run")
+    print("***************")
 
     stored_data = League_standing.query.all()
     for data in stored_data:
@@ -170,9 +173,9 @@ def populate_fixtures():
 
 
 #scripts to run
-populate_season_league_table()
-populate_team_table()
-populate_team_info_table()
-populate_standings_table()
-populate_results_all_table()
-populate_fixtures()
+# populate_season_league_table()
+# populate_team_table()
+# populate_team_info_table()
+# populate_standings_table()
+# populate_results_all_table()
+# populate_fixtures()
