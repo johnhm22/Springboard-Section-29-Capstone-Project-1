@@ -168,19 +168,9 @@ def populate_fixtures():
     response = requests.request("GET", url, headers=headers)
 
 
-
-    #Plan is to create a function to calculate the date which is called below
-    def date_time(date_str):
-        date_object = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S%z")
-        return date_object.ctime()
-
-    # date_string = data['api']['fixtures'][0]['event_date']
-    # date_object = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S%z")
-    # print("date_object = ", date_object)
-
     data = response.json()
     for info in data['api']['fixtures']:
-        upcoming_games = Fixture(event_date = date_time(info['event_date']), venue = info['venue'], referee = info['referee'], homeTeam = info['homeTeam']['team_name'], homeTeam_id = info['homeTeam']['team_id'], homeTeam_logo = info['homeTeam']['logo'], awayTeam = info['awayTeam']['team_name'], awayTeam_id = info['awayTeam']['team_id'], awayTeam_logo = info['awayTeam']['logo'])
+        upcoming_games = Fixture(event_date = info['event_date'], venue = info['venue'], referee = info['referee'], homeTeam = info['homeTeam']['team_name'], homeTeam_id = info['homeTeam']['team_id'], homeTeam_logo = info['homeTeam']['logo'], awayTeam = info['awayTeam']['team_name'], awayTeam_id = info['awayTeam']['team_id'], awayTeam_logo = info['awayTeam']['logo'])
         db.session.add(upcoming_games)
         db.session.commit()
 
