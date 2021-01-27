@@ -1,11 +1,7 @@
 # Springboard-Section-29-Capstone-Project-1  
-API used:  
-https://www.api-football.com/  
-Accessed via the platform:  
-https://rapidapi.com/marketplace
 
 **What does this app do?**  
-It is, I hope, a fun and interesting app. It obtains data on the English Premiership (football/soccer) from the API shown above and displays it in html format. The user is requried to create a login to explore the app. The features consist of:  
+It is, I hope, a fun and interesting app. It obtains data on the English Premiership (football/soccer) from an API and displays it in html format. The user is requried to create a login to explore the app. The features consist of:  
 * A list of upcoming games  
 * The most recent games and results  
 * Live games and current scores  
@@ -14,6 +10,10 @@ It is, I hope, a fun and interesting app. It obtains data on the English Premier
 * The user can select their favourite team at the point of signup and see a summary of performance and next few games as the home screen upon login
 
 The app provides key information with regard to games and performance. It provides a useful and testing exercise in web site design and full-stack development. There is scope to build on this and provide a far richer presentation and involved user participation such as a comments functionality.  
+
+**API used**  
+The API used is: https://www.api-football.com/  It is a freemium model. Thus there is a charge for a number of calls above a defined threshold.  
+The API has been accessed via the platform:  https://rapidapi.com/marketplace
 
 **Website design**  
 Access to all website pages is via a navbar. The menus across the top left are the portals to the functionality described above. The menus on the right are for signup, login/logout. Once logged in the username is displayed, clicking it will present a brief summary of the user's profile. It is a simple, intuitive layout.  
@@ -35,4 +35,23 @@ The choice between a direct API call or to the database is less clear for some o
 For the "static" data mentioned earlier, no automated update of the database has been set up.  
 
 
-**Testing**
+**Testing**  
+Four testing scripts have been written.  
+* test_app.py
+* test_models.py
+* test_user_models.py
+* test_populate_scripts.py  
+
+The Python built-in unit testing framework unittest is used to test the application. It is part of the standard Python library and so doesn't need to be downloaded or installed. TestCase is a base class containing testing methods. It is imported from unittest and is used to test the response of a defined test to a series of inputs.  
+
+One or more test classes are created in each test file. These test classes inherit from TestCase which provides them with access to the testing methods of TestCase such as assert methods.
+
+The tests are structured with setUp and tearDown functions which are run before and after each test respectively. The setUp function will ensure a clean database and enter test data prior to the test. The tearDown function will remove the data at the end of the test.  
+
+test_user_models.py is aimed at testing signup and authentication
+test_models.py checks that data can be correctly entered into the database tables
+test_app.py is more extensive and tests the routes defined in app.py
+test_populate_scripts.py is not in itself a test file, but is populates the test database by using the API and is called by test_app.py when first exectuted  
+
+
+
