@@ -26,6 +26,8 @@ API_BASE_URL = "https://api-football-v1.p.rapidapi.com/v2"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgres:///matchday'))
+    
+app.config['API_KEY'] = (os.environ.get('API_KEY'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
