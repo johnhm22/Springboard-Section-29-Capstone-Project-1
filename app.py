@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 # from secrets import API_KEY
 import requests
 from datetime import datetime, date
-# from ratelimit import limits, sleep_and_retry
+from ratelimit import limits, sleep_and_retry
 from forms import UserAddForm, UserEditForm, LoginForm, PredictionsForm
 from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom, Prediction_manager, Team, Season_league, Team_info, Results_all, Results_home, Results_away, League_standing, Fixture
 from populate_scripts import populate_standings_table
@@ -188,7 +188,7 @@ def home_page():
     return render_template('home.html', results_data=results_data, league_data=league_data, future_games = future_games, record=record)
 
 
-# @limits(calls = 1, period = FIVE_MINUTES)
+@limits(calls = 1, period = FIVE_MINUTES)
 @app.route('/user/recent_results')
 def show_recent_results():
     """Show last five results in league"""
@@ -273,7 +273,7 @@ def show_league_table():
 
 
 
-# @limits(calls = 1, period = FIVE_MINUTES)
+@limits(calls = 1, period = FIVE_MINUTES)
 @app.route('/fixtures')
 def show_upcoming_fixtures():
     if not g.user:
@@ -292,7 +292,7 @@ def show_upcoming_fixtures():
 
 
 
-# @limits(calls = 3, period = FIVE_MINUTES)
+@limits(calls = 3, period = FIVE_MINUTES)
 @app.route('/user/live')
 def show_live_games():
     """Show scheduled/live games for the day """
