@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from secrets import API_KEY_SECRETS_FILE
+# from secrets import API_KEY_SECRETS_FILE
 import requests
 from datetime import datetime
 from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom, Prediction_manager, Team, Season_league, Team_info, Results_all, Results_home, Results_away, League_standing, Fixture
