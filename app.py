@@ -41,7 +41,7 @@ connect_db(app)
 
 #update league table details in database
 #comment this function call out before running tests
-populate_standings_table()
+# populate_standings_table()
 
 @app.before_request
 def add_user_to_g():
