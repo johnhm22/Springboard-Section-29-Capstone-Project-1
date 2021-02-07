@@ -17,9 +17,32 @@
                   {{game['homeTeam']['team_name']}}
                   </div>
                   
-                  <div class="col-2 text-center">
+                  <!-- <div class="col-2 text-center">
                   vs.
-                  </div>
+                  </div> -->
+
+                  {% if game['goalsAwayTeam'] == None %}
+
+                  <div class="col-1 text-center">
+                    vs. 
+                  </div>  
+                  
+                  {% else %}
+
+                  <div class="col-1 text-center">
+                    {{game['goalsHomeTeam']}}      
+                    </div>  
+                    <div class="col-1 text-center">
+                      -  
+                    </div>  
+                    <div class="col-1 text-center">
+                    {{game['goalsAwayTeam']}}      
+                    </div>
+
+                  {% endif %}
+
+
+
 
                   <div class="col text-center">
                   <img src={{game['awayTeam']['logo']}} width="30" height="30" class="d-inline-block align-top" alt="logo">

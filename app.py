@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, jsonify, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-# from secrets import API_KEY_SECRETS_FILE
+from secrets import API_KEY_SECRETS_FILE
 import requests
 from datetime import datetime, date
 from ratelimit import limits, sleep_and_retry
@@ -27,8 +27,8 @@ API_BASE_URL = "https://api-football-v1.p.rapidapi.com/v2"
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgres:///matchday'))
     
-# app.config['API_KEY'] = (os.environ.get('API_KEY', API_KEY_SECRETS_FILE))
-app.config['API_KEY'] = (os.environ.get('API_KEY'))
+app.config['API_KEY'] = (os.environ.get('API_KEY', API_KEY_SECRETS_FILE))
+# app.config['API_KEY'] = (os.environ.get('API_KEY'))
 API_KEY = app.config['API_KEY']
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -41,7 +41,7 @@ connect_db(app)
 
 #update league table details in database
 #comment this function call out before running tests
-# populate_standings_table()
+populate_standings_table()
 
 @app.before_request
 def add_user_to_g():
