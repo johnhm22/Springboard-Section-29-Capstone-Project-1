@@ -171,6 +171,6 @@ def populate_fixtures():
 # populate_season_league_table()
 # populate_team_table()
 # populate_team_info_table()
-populate_standings_table()
+# populate_standings_table()
 # populate_results_all_table()
 # populate_fixtures()
