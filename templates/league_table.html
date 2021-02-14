@@ -5,23 +5,25 @@
 <h2 class="display-5">Premier League Table</h2>
 </div>
   <div class="row justify-content-md-center">
-    <div class="col-md-10">
+    <div class="col-md-8">
         <table class="table table-striped">
-            <thead style="background-color: #e4f0edaa">
-                <th>Rank</th>
-                <th>Team</th>
+            <thead class="text-center" style="background-color: #e4f0edaa">
+                <th>Position</th>
+                <th class="text-left">Team</th>
+                <th>Played</th>
                 <th>Form</th>
                 <th>Goal diff.</th>
                 <th>Points</th>
             </thead>
             <tbody style="background-color: #e4f0edaa">
                 {% for team in league %}
-                <tr>
-                    <td>{{team.rank}}</td>
-                    <td><img src={{team.logo}} width="30" height="30" class="d-inline-block align-top" alt="logo">  {{team.team.team_name}}</td>
-                    <td>{{team.form}}</td>
-                    <td>{{team.goalsDiff}}</td>
-                    <td>{{team.points}}</td>
+                <tr class="text-center">
+                    <td>{{team['rank']}}</td>
+                    <td class="text-left"><img src={{team['logo']}} width="30" height="30" class="d-inline-block align-top" alt="logo">  {{team['teamName']}}</td>
+                    <td>{{team['all']['matchsPlayed']}}</td>
+                    <td>{{team['forme']}}</td>
+                    <td>{{team['goalsDiff']}}</td>
+                    <td>{{team['points']}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
