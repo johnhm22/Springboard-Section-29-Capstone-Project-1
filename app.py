@@ -36,7 +36,15 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 # toolbar = DebugToolbarExtension(app)
 
+# 3456 is the API-Football id for the 2021-22 English Premier League
+# 2790 is the API-Football id for the 2020-21 English Premier League
+
+LEAGUE2020 = 2790
+LEAGUE2021 = 3456
+LEAGUE_ID = LEAGUE2021
+
 connect_db(app)
+
 
 #update league table details in database
 #comment this function call out before running tests
@@ -62,6 +70,22 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+
+@app.route("/leagues")
+def getLeagues():
+    """show available leagues"""
+    url = f"https://api-football-v1.p.rapidapi.com/v2/leagues"
+    headers = {
+    'x-rapidapi-key': API_KEY,
+    'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
+    }
+    response = requests.request("GET", url, headers=headers)
+    print("*******************")
+    print (response)
+    data = response.json()
+
+    return data
+
 
 
 @app.route("/")
@@ -198,7 +222,7 @@ def show_recent_results():
         return redirect("/")
 
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/last/5"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/last/5"
 
     headers = {
     'x-rapidapi-key': API_KEY,
@@ -281,7 +305,7 @@ def show_upcoming_fixtures():
         flash("Sorry, you are not authorised to view this page", "danger")
         return redirect("/")
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/next/5"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/next/5"
     headers = {
     'x-rapidapi-key': API_KEY,
     'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
@@ -302,7 +326,7 @@ def show_live_games():
         return redirect("/")
 
     d_today = today.strftime("%d-%b-%Y")
-    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/{d1}"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/{d1}"
     headers = {
         'x-rapidapi-key': API_KEY,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
