@@ -28,6 +28,14 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
 
+# 3456 is the API-Football id for the 2021-22 English Premier League
+# 2790 is the API-Football id for the 2020-21 English Premier League
+
+LEAGUE2020 = 2790
+LEAGUE2021 = 3456
+LEAGUE_ID = LEAGUE2021
+
+
 connect_db(app)
 
 
@@ -104,7 +112,7 @@ def populate_standings_table():
         db.session.delete(data)
         db.session.commit()
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/leagueTable/2790"
+    url = F"https://api-football-v1.p.rapidapi.com/v2/leagueTable/{LEAGUE_ID}"
     headers = {
         'x-rapidapi-key': API_KEY,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
@@ -128,7 +136,7 @@ def populate_results_all_table():
         db.session.delete(data)
         db.session.commit()
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/leagueTable/2790"
+    url = F"https://api-football-v1.p.rapidapi.com/v2/leagueTable/{LEAGUE_ID}"
     headers = {
         'x-rapidapi-key': API_KEY,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
@@ -152,7 +160,7 @@ def populate_fixtures():
         db.session.commit()
   
     
-    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/next/5"
+    url = F"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/next/5"
     headers = {
         'x-rapidapi-key': API_KEY,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"

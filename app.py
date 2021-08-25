@@ -37,6 +37,13 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 # toolbar = DebugToolbarExtension(app)
 
+# 3456 is the API-Football id for the 2021-22 English Premier League
+# 2790 is the API-Football id for the 2020-21 English Premier League
+
+LEAGUE2020 = 2790
+LEAGUE2021 = 3456
+LEAGUE_ID = LEAGUE2021
+
 connect_db(app)
 
 
@@ -196,7 +203,7 @@ def show_recent_results():
         return redirect("/")
 
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/last/5"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/last/5"
 
     headers = {
     'x-rapidapi-key': API_KEY,
@@ -268,7 +275,7 @@ def show_league_table():
 
     """Show current league table"""
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/leagueTable/2790"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/leagueTable/{LEAGUE_ID}"
     headers = {
         'x-rapidapi-key': API_KEY,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
@@ -288,7 +295,7 @@ def show_upcoming_fixtures():
         flash("Sorry, you are not authorised to view this page", "danger")
         return redirect("/")
 
-    url = "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/next/5"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/next/5"
     headers = {
     'x-rapidapi-key': API_KEY,
     'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
@@ -309,7 +316,7 @@ def show_live_games():
         return redirect("/")
 
     d_today = today.strftime("%d-%b-%Y")
-    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/2790/{d1}"
+    url = f"https://api-football-v1.p.rapidapi.com/v2/fixtures/league/{LEAGUE_ID}/{d1}"
     headers = {
         'x-rapidapi-key': API_KEY,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
