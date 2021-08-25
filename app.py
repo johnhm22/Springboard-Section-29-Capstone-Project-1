@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, jsonify, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-# from secrets import API_KEY_SECRETS_FILE
+
 import requests
 from datetime import datetime, date
 from ratelimit import limits, sleep_and_retry
@@ -34,7 +34,8 @@ API_KEY = app.config['API_KEY']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
+# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's |a secret")
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 # toolbar = DebugToolbarExtension(app)
 
 # 3456 is the API-Football id for the 2021-22 English Premier League
