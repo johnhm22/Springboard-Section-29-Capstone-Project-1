@@ -10,6 +10,7 @@ from ratelimit import limits, sleep_and_retry
 from forms import UserAddForm, UserEditForm, LoginForm, PredictionsForm
 from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom, Prediction_manager, Team, Season_league, Team_info, Results_all, Results_home, Results_away, League_standing, Fixture
 from populate_scripts import populate_standings_table
+from populate_scripts import populate_results_all_table
 
 
 today = date.today()
@@ -47,6 +48,7 @@ LEAGUE_ID = LEAGUE2021
 
 connect_db(app)
 
+# populate_results_all_table()
 
 @app.before_request
 def add_user_to_g():
