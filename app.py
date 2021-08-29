@@ -49,7 +49,7 @@ LEAGUE_ID = LEAGUE2021
 
 connect_db(app)
 
-populate_results_all_table()
+# populate_results_all_table()
 
 @app.before_request
 def add_user_to_g():
