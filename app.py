@@ -9,7 +9,7 @@ from datetime import datetime, date
 from ratelimit import limits, sleep_and_retry
 from forms import UserAddForm, UserEditForm, LoginForm, PredictionsForm
 from models import db, connect_db, User, Bio, Prediction_top, Prediction_bottom, Prediction_manager, Team, Season_league, Team_info, Results_all, Results_home, Results_away, League_standing, Fixture
-from populate_scripts import populate_standings_table
+# from populate_scripts import populate_standings_table
 from populate_scripts import populate_results_all_table
 
 
@@ -22,6 +22,8 @@ FIVE_MINUTES = 300
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+
+populate_results_all_table()
 
 API_BASE_URL = "https://api-football-v1.p.rapidapi.com/v2"
 
