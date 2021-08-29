@@ -23,7 +23,6 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-populate_results_all_table()
 
 API_BASE_URL = "https://api-football-v1.p.rapidapi.com/v2"
 
@@ -50,7 +49,7 @@ LEAGUE_ID = LEAGUE2021
 
 connect_db(app)
 
-# populate_results_all_table()
+populate_results_all_table()
 
 @app.before_request
 def add_user_to_g():
