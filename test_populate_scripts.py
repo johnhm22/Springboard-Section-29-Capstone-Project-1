@@ -11,7 +11,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from secrets import API_KEY
+# from secrets import API_KEY
 import requests
 from datetime import datetime
 
