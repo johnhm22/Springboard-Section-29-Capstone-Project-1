@@ -8,6 +8,11 @@ db = SQLAlchemy()
 
 
 def connect_db(app):
+    print('************************')
+    print('************************')
+    print('def connect function called')
+    print('************************')
+    print('************************')
     db.app = app
     db.init_app(app)
 

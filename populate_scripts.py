@@ -105,6 +105,11 @@ def populate_team_info_table():
 
 def populate_standings_table():
     """populate prem league table. Prem league id for 2020 = 2790"""
+    print('************************')
+    print('************************')
+    print('populate_standings_table function called')
+    print('************************')
+    print('************************')
     stored_data = League_standing.query.all()
     for data in stored_data:
         db.session.delete(data)
@@ -129,6 +134,11 @@ def populate_standings_table():
 def populate_results_all_table():
     """populate results table for all games. Prem league id for 2020 = 2790"""
     
+    print('************************')
+    print('************************')
+    print('populate_results_all_table function called')
+    print('************************')
+    print('************************')
     stored_data = Results_all.query.all()
     for data in stored_data:
         db.session.delete(data)
