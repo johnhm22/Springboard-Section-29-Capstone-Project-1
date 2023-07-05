@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, jsonify, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from secrets import API_KEY_SECRETS_FILE
+# from secrets_1 import API_KEY_SECRETS_FILE, DATABASE_URL
 import requests
 from datetime import datetime, date
 from ratelimit import limits, sleep_and_retry
@@ -25,10 +25,12 @@ app = Flask(__name__)
 
 API_BASE_URL = "https://api-football-v1.p.rapidapi.com/v2"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgres:///matchday'))
-    
-app.config['API_KEY'] = (os.environ.get('API_KEY', API_KEY_SECRETS_FILE))
+# app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     os.environ.get('DATABASE_URL', 'postgres:///matchday'))
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(DATABASE_URL)
+
+app.config['API_KEY'] = os.getenv(API_KEY)
 API_KEY = app.config['API_KEY']
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
